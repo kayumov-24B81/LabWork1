@@ -1,7 +1,10 @@
-#include <iostream>
+/* Kayumov Airat st128100@student.spbu.ru
+   This is read.cpp file. This file contains read function, that writes bmp file into memory (except for editors information). All containers and vectors are adressed through references. It also can consider padding and doesn't write padding bytes. This file also changes value of the offset from Bitmap file header and image size from DIB header to match the size of image contained in memory. This is needed because editors information is not saved.
+*/
+
 #include <vector>
 #include <fstream>
-#include "bmp.hpp"
+#include "read.hpp"
 
 void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char> &pixels, std :: vector<unsigned char> &color_palette, const char* fname)
 {

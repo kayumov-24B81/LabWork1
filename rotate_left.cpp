@@ -1,5 +1,9 @@
+/* Kayumov Airat st128100@student.spbu.ru
+   This is rotate_left.cpp file. This file contains rotate_left function that rotates bmp file from memory by 90 degrees left and calls write function. All containers and vectors are adressed through references. It also checks if image in memory was rotated to decide if it's needed to swap height and width of image.
+*/
 #include <vector>
-#include "bmp.hpp"
+#include "rotate_left.hpp"
+#include "write.hpp"
 
 void rotate_left(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated)
 {

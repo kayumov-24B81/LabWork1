@@ -1,3 +1,6 @@
+/* Kayumov Airat st128100@student.spbu.ru
+   This is header file that contains declaration of containers used for storing bmp file headers contents. Sizes of all variables match sizes of corresponding pieces of bmp headers and pragma pach is used, so they can be read directly into these structures.
+*/
 #ifndef BMP_HPP
 #define BMP_HPP
 
@@ -28,17 +31,5 @@ struct DIB_HEADER
 };
 
 #pragma pack(pop)
-
-void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
-
-void write(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
-
-void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated);
-
-void rotate_left(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated);
-
-std :: vector<std :: vector<float>> create_matrix(int radius, float sigma);
-
-void apply_filter(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, int radius, float sigma);
 
 #endif

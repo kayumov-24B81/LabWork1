@@ -1,6 +1,9 @@
+/* Kayumov Airat st128100@student.spbu.ru
+   This is write.cpp file. This file contains write function, that writes bmp file from memory to the disk. All containers and vectors are adressed through references. It also can consider padding and adss padding bytes if needed. This function isn't called by itself in main.cpp, but inside other functions.
+*/
 #include <vector>
 #include <fstream>
-#include "bmp.hpp"
+#include "write.hpp"
 
 void write(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char> &pixels, std :: vector<unsigned char> &color_palette, const char* fname)
 {
