@@ -2,7 +2,7 @@ PROJECT = bmp
 
 LIBPROJECT = $(PROJECT).a
 
-OBJECTS = main.o read.o
+OBJECTS = main.o read.o write.o
 
 DEPS = (wildcard *.h)
 

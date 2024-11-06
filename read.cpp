@@ -1,9 +1,9 @@
-
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include "bmp.hpp"
 
-void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char> pixels, std :: vector<unsigned char> &color_palette, const char* fname)
+void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char> &pixels, std :: vector<unsigned char> &color_palette, const char* fname)
 {
     std :: ifstream text;
     
@@ -31,7 +31,7 @@ void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned
     
     else
     {
-        unsigned row_size = dib_header.bits_per_pixel * dib_header.width / 8;
+        unsigned row_size = (dib_header.bits_per_pixel * dib_header.width) / 8;
         unsigned padding_size = 0;
         
         while((row_size + padding_size) % 4 != 0)
@@ -47,11 +47,10 @@ void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned
             text.read((char*)padding, padding_size);
         }
         
-        bmp_header.bmp_size += pixels.size() + dib_header.height * sizeof(padding) * padding_size;
-        
+        bmp_header.bmp_size += pixels.size() + dib_header.height * sizeof(unsigned char) * padding_size;
+
         delete [] padding;
      }
-     
      
 }
         
