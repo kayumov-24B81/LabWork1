@@ -1,7 +1,7 @@
 #include <vector>
 #include "bmp.hpp"
 
-void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette)
+void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated)
 {
     std :: vector<unsigned char> rotated(pixels.size());
     
@@ -13,9 +13,14 @@ void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<
         }
     }
     
-    int temp = dib_header.width;
-    dib_header.width = dib_header.height;
-    dib_header.height = temp;
+    if(not(was_rotated))
+    {
+        int temp = dib_header.width;
+        dib_header.width = dib_header.height;
+        dib_header.height = temp;
+    }
+    
+    was_rotated = not(was_rotated);
     
     write(bmp_header, dib_header, rotated, color_palette, "rotated_right.bmp");
 }
