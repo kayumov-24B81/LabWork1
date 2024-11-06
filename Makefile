@@ -2,7 +2,7 @@ PROJECT = bmp
 
 LIBPROJECT = $(PROJECT).a
 
-OBJECTS = main.o read.o write.o rotate_right.o
+OBJECTS = main.o read.o write.o rotate_right.o rotate_left.o
 
 DEPS = (wildcard *.h)
 
@@ -39,7 +39,7 @@ clean:
 cleanall: clean
 	rm -f $(LIBPROJECT)
 	rm -f $(PROJECT)
-	rm -f rotated_right.bmp
+	rm -f rotated_right.bmp rotated_left.bmp
 
 
 
