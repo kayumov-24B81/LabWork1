@@ -2,7 +2,7 @@ PROJECT = bmp
 
 LIBPROJECT = $(PROJECT).a
 
-OBJECTS = main.o read.o write.o rotate_right.o rotate_left.o
+OBJECTS = main.o read.o write.o rotate_right.o rotate_left.o create_matrix.o
 
 DEPS = (wildcard *.h)
 

@@ -33,8 +33,10 @@ void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned
 
 void write(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
 
-void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
+void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette);
 
-void rotate_left(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
+void rotate_left(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette);
+
+std :: vector<std :: vector<float>> create_matrix(int radius, float sigma);
 
 #endif
