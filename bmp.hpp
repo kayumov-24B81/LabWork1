@@ -29,7 +29,7 @@ struct DIB_HEADER
 
 #pragma pack(pop)
 
-
+void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char> pixels, std :: vector<unsigned char> &color_palette, const char* fname);
 
 
 
