@@ -33,5 +33,12 @@ void read(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned
 
 void write(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, const char* fname);
 
+void rotate_right(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated);
+
+void rotate_left(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, bool &was_rotated);
+
+std :: vector<std :: vector<float>> create_matrix(int radius, float sigma);
+
+void apply_filter(BMP_HEADER &bmp_header, DIB_HEADER &dib_header, std :: vector<unsigned char>& pixels, std :: vector<unsigned char>& color_palette, int radius, float sigma);
 
 #endif
