@@ -1,10 +1,10 @@
-# Assignment 3
+# LabWork1
 ## Author
 Каюмов Айрат Хафизович, группа 24Б.81-мм
 ## Contacts
 st128100@student.spbu.ru
 ## Description
-LabWork1 - this program reads "source.bmp" file into memory (two structures and two arrays). Also it contains 4 functions: writing file to the disk, rotating image right by 90 degrees, rotating image left by 90 degrees, applying gaussian filter to an image. When ran, program creates rotated versions of "source.bmp" image(one to the right and one to the left) and filtered version of source image.
+LabWork1 - first this program reads grayscale 8bit "source.bmp" file into memory. Then it rotates source image right by 90 degress and saves as "rotated_right.bmp", then rotates source image left by 90 degrees and saves as "rotated_left.bmp" and in the end it takes radius and sigma parameter of matrix from console to apply gaussian filter to "rotated_left.bmp" and save it as "filtered.bmp".
 ## Build
 make
 ## Run
