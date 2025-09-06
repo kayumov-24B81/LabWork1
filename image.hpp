@@ -1,0 +1,55 @@
+/* Kayumov Airat st128100@student.spbu.ru
+   This file contains declaration of BMP_HEADER and DIB_HEADER structures and Image class.
+*/
+#include <string>
+#include "matrix.hpp"
+
+
+#ifndef BMP_HPP
+#define BMP_HPP
+
+#pragma pack(push,  1)
+
+struct BMP_HEADER
+{
+    unsigned short header_field;
+    unsigned bmp_size;
+    unsigned short reserved1;
+    unsigned short reserved2;
+    unsigned int pixel_data_address;
+};
+
+struct DIB_HEADER
+{
+    unsigned dib_size;
+    int width;
+    int height;
+    unsigned short color_planes;
+    unsigned short bits_per_pixel;
+    unsigned compression_method;
+    unsigned image_size;
+    int x_pixel_per_metre;
+    int y_pixel_per_metre;
+    unsigned colors_amount;
+    unsigned important_colors_amount;
+};
+
+class Image
+{
+private:
+    BMP_HEADER bmpHeader;
+    DIB_HEADER dibHeader;
+    std::vector<unsigned char> colorPalette;
+    std::vector<unsigned char> pixels;
+public:
+    Image();
+    void read(std :: string fileName);
+    void write(std :: string fileName);
+    void rotateLeft();
+    void rotateRight();
+    void applyGaussianFilter(std :: vector<std :: vector<float>> matrix);
+};
+
+#pragma pack(pop)
+
+#endif

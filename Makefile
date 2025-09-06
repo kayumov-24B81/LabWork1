@@ -2,9 +2,9 @@ PROJECT = bmp
 
 LIBPROJECT = $(PROJECT).a
 
-OBJECTS = main.o read.o write.o rotate_right.o rotate_left.o create_matrix.o apply_filter.o
+OBJECTS = main.o image.o matrix.o
 
-DEPS = (wildcard *.h)
+DEPS = (wildcard *.hpp)
 
 A = ar
 
