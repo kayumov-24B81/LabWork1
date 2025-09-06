@@ -12,7 +12,7 @@ AFLAGS = rsv
 
 CXX = g++
 
-CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
+CXXFLAGS = -I. -std=c++17 -pthread -Werror -Wpedantic -Wall -g -fPIC
 
 LDXXFLAGS = $(CXXFLAGS) -L. -l:$(LIBPROJECT)
 
