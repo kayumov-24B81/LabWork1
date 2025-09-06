@@ -15,6 +15,7 @@ private:
 public:
     Matrix(short radius);
     void fillGaussianMatrix(float sigma);
+    void fillGaussianMatrixWThreads(float sigma);
     void normalize();
     std :: vector<std :: vector<float>> getContents();
 };
