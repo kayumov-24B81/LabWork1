@@ -3,6 +3,7 @@
 */
 
 #include "image.hpp"
+#include <iostream>
 
 int main()
 {
@@ -16,7 +17,12 @@ int main()
     Image.rotateRight();
     Image.write("rotated_right.bmp");
     
-    Matrix gaussianMatrix(5);
+    
+    int size = 0;
+    std :: cout << "Enter the size of the gaussian matrix:" << std :: endl;
+    std :: cin >> size;
+    
+    Matrix gaussianMatrix(size);
     gaussianMatrix.fillGaussianMatrix(2.0);
     gaussianMatrix.normalize();
     
