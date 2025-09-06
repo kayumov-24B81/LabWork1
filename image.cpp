@@ -3,8 +3,6 @@
 
 #include "image.hpp"
 #include <fstream>
-#include <thread>
-#include <algorithm>
 
 Image :: Image()
 {
@@ -95,150 +93,58 @@ void Image :: rotateLeft()
 {
     std :: vector<unsigned char> originalPixels(pixels);
     
-    const int height = dibHeader.height;
-    const int width = dibHeader.width;
-    
-    unsigned threads_amount = std :: thread :: hardware_concurrency();
-    if(threads_amount == 0) threads_amount = 4;
-    
-    std :: vector<std :: thread> threads;
-    int rows_per_thread = height / threads_amount;
-    
-    for(unsigned t = 0; t < threads_amount; ++t)
+    for(int y = 0; y < dibHeader.height; ++y)
     {
-        int start_y = t * rows_per_thread;
-        int end_y = start_y + rows_per_thread;
-        if(t == threads_amount - 1) end_y = height;
-        
-        threads.emplace_back([&, start_y, end_y]()
+        for(int x = 0; x < dibHeader.width; ++x)
         {
-           for(int y = start_y; y < end_y; ++y)
-           {
-               for(int x = 0; x < width; ++x)
-               {
-                   int original_index = x + y*width;
-                   int rotated_index = height - 1 - y + x*height;
-                   pixels[rotated_index] = originalPixels[original_index];
-               }
-            }
-         });
+            pixels[(dibHeader.height - 1 - y) + x*dibHeader.height] = originalPixels[x + y*dibHeader.width];
+        }
     }
     
-    for (auto& thread : threads)
-    {
-        thread.join();
-    }
-    
-    std::swap(dibHeader.width, dibHeader.height);
+    int temp = dibHeader.width;
+    dibHeader.width = dibHeader.height;
+    dibHeader.height = temp;;
 }
 
 void Image :: rotateRight()
 {
     std :: vector<unsigned char> originalPixels(pixels);
     
-    const int height = dibHeader.height;
-    const int width = dibHeader.width;
-    
-    unsigned threads_amount = std :: thread :: hardware_concurrency();
-    if(threads_amount == 0) threads_amount = 4;
-    
-    std :: vector<std :: thread> threads;
-    int rows_per_thread = height / threads_amount;
-    
-    for(unsigned t = 0; t < threads_amount; ++t)
+    for(int y = 0; y < dibHeader.height; ++y)
     {
-        int start_y = t * rows_per_thread;
-        int end_y = start_y + rows_per_thread;
-        if(t == threads_amount - 1) end_y = height;
-        
-        threads.emplace_back([&, start_y, end_y]()
+        for(int x = 0; x < dibHeader.width; ++x)
         {
-           for(int y = start_y; y < end_y; ++y)
-           {
-               for(int x = 0; x < width; ++x)
-               {
-                   int original_index = x + y * width;
-                   int rotated_index = y + (width - 1 - x) * height;
-                   pixels[rotated_index] = originalPixels[original_index];
-               }
-            }
-         });
+            pixels[y + (dibHeader.width - 1 - x)*dibHeader.height] = originalPixels[x + y*dibHeader.width];
+        }
     }
     
-    for (auto& thread : threads)
-    {
-        thread.join();
-    }
-    
-    std::swap(dibHeader.width, dibHeader.height);
+    int temp = dibHeader.width;
+    dibHeader.width = dibHeader.height;
+    dibHeader.height = temp;
 }
 
 void Image :: applyGaussianFilter(std :: vector<std :: vector<float>> matrix)
 {
     std :: vector<unsigned char> originalPixels(pixels);
     short radius = matrix.size() / 2;
-    const int width = dibHeader.width;
-    const int height = dibHeader.height;
     
-    auto clamp_x = [width](int x)
+    for(int y = 0; y < dibHeader.height; ++y)
     {
-        return std::min(std::max(x, 0), width - 1);
-    };
-    auto clamp_y = [height](int y)
-    {
-        return std::min(std::max(y, 0), height - 1);
-    };
-    
-    unsigned threads_amount = std :: thread :: hardware_concurrency();
-    std :: vector<std :: thread> threads;
-    int rows_per_thread = height / threads_amount;
-    
-    for(unsigned t = 0; t < threads_amount; ++t)
-    {
-        int start_y = t * rows_per_thread;
-        int end_y = start_y + rows_per_thread;
-        if(t == threads_amount - 1) end_y = height;
-        
-        threads.emplace_back([&, start_y, end_y, radius, width, height, clamp_x, clamp_y]()
+        for(int x = 0; x < dibHeader.width; ++x)
         {
-            for(int y = start_y; y < end_y; ++y)
+            double blurred_pixel = 0.0;
+            
+            for(short my = -radius; my <= radius; ++my)
             {
-                const int y_times_width = y * width;
-                
-                for(int x = 0; x < width; ++x)
+                for(short mx = -radius; mx <= radius; ++ mx)
                 {
-                    double blurred_pixel = 0;
-                    for(short my = -radius; my <= radius; ++my)
-                    {
-                        int newy = clamp_y(y + my);
-                        int newy_times_width = newy * width;
-                        
-                        for(short mx = -radius; mx <= radius; ++mx)
-                        {
-                            int newx = clamp_x(x + mx);
-                            blurred_pixel += originalPixels[newx + newy_times_width] * matrix[mx + radius][my + radius];
-                        }
-                    }
-                    pixels[x + y_times_width] = static_cast<unsigned char>(blurred_pixel);
+                    int newx = std :: min(std :: max(x + mx, 0), dibHeader.width - 1);
+                    int newy = std :: min(std :: max(y + my, 0), dibHeader.height - 1);
+                    
+                    blurred_pixel += originalPixels[newx + newy*dibHeader.width] * matrix[mx + radius][my + radius];
                 }
-            }
-        });
-    }
-    
-    for(auto& thread : threads)
-    {
-        thread.join();
+            }            
+            pixels[x + y*dibHeader.width] = static_cast<unsigned char>(blurred_pixel);
+        }
     }
 }
-    
-    
-
-
-
-
-
-
-
-
-
-
