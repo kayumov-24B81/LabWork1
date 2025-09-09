@@ -19,11 +19,7 @@ Matrix :: Matrix(short radius)
 void Matrix :: fillGaussianMatrix(float sigma)
 {
     short radius = matrixContents.size() / 2;
-    if(radius > 10)
-    {
-        this->fillGaussianMatrixWThreads(sigma);
-        return;
-    }
+    sum = 0;
     
     for(short x = -radius; x <= radius; ++x)
     {

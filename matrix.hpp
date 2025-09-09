@@ -1,5 +1,5 @@
 /* Kayumov Airat st128100@student.spbu.ru
-   This file contains declaration of Matrix class.
+   This file contains declaration of Matrix class. All functions optimized using multithreading have their single-threaded versions preserved.
 */
 
 #include <vector>

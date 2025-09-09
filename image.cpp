@@ -26,12 +26,12 @@ void Image :: read(std :: string fileName)
     bmpHeader.pixel_data_address = dibHeader.dib_size + sizeof(bmpHeader) + colorPalette.size();
     bmpHeader.bmp_size = bmpHeader.pixel_data_address;
     
-    pixels.resize((dibHeader.bits_per_pixel * dibHeader.width * dibHeader.height) / 8);
+    originalPixels.resize((dibHeader.bits_per_pixel * dibHeader.width * dibHeader.height) / 8);
     
     if(dibHeader.width % 4 == 0)
     {
-        file.read((char*)pixels.data(), pixels.size());
-        bmpHeader.bmp_size += pixels.size();
+        file.read((char*)originalPixels.data(), originalPixels.size());
+        bmpHeader.bmp_size += originalPixels.size();
     }
     else
     {
@@ -47,14 +47,15 @@ void Image :: read(std :: string fileName)
         
         for(int y = 0; y < dibHeader.height; ++y)
         {
-            file.read((char*)(pixels.data() + y*row_size), row_size);
+            file.read((char*)(originalPixels.data() + y*row_size), row_size);
             file.read((char*)padding, padding_size);
         }
         
-        bmpHeader.bmp_size += pixels.size() + dibHeader.height * sizeof(unsigned char) * padding_size;
+        bmpHeader.bmp_size += originalPixels.size() + dibHeader.height * sizeof(unsigned char) * padding_size;
 
         delete [] padding;
     }
+    pixels.resize(originalPixels.size());
 }
 
 void Image :: write(std :: string fileName)
@@ -93,8 +94,25 @@ void Image :: write(std :: string fileName)
 
 void Image :: rotateLeft()
 {
-    std :: vector<unsigned char> originalPixels(pixels);
+    const int height = dibHeader.height;
+    const int width = dibHeader.width;
     
+    for(int y = 0; y < height; ++y)
+    {
+        for(int x = 0; x < width; ++x)
+        {
+            int original_index = x + y*width;
+            int rotated_index = height - 1 - y + x*height;
+            pixels[rotated_index] = originalPixels[original_index];
+        }
+    }
+    
+    std::swap(dibHeader.width, dibHeader.height);
+}
+
+
+void Image :: rotateLeftWThreads()
+{
     const int height = dibHeader.height;
     const int width = dibHeader.width;
     
@@ -134,8 +152,24 @@ void Image :: rotateLeft()
 
 void Image :: rotateRight()
 {
-    std :: vector<unsigned char> originalPixels(pixels);
+    const int height = dibHeader.height;
+    const int width = dibHeader.width;
     
+    for(int y = 0; y < height; ++y)
+    {
+        for(int x = 0; x < width; ++x)
+        {
+            int original_index = x + y * width;
+            int rotated_index = y + (width - 1 - x) * height;
+            pixels[rotated_index] = originalPixels[original_index];
+        }
+    }
+    
+    std::swap(dibHeader.width, dibHeader.height);
+}
+
+void Image :: rotateRightWThreads()
+{
     const int height = dibHeader.height;
     const int width = dibHeader.width;
     
@@ -175,7 +209,43 @@ void Image :: rotateRight()
 
 void Image :: applyGaussianFilter(std :: vector<std :: vector<float>> matrix)
 {
-    std :: vector<unsigned char> originalPixels(pixels);
+    short radius = matrix.size() / 2;
+    const int width = dibHeader.width;
+    const int height = dibHeader.height;
+    
+    auto clamp_x = [width](int x)
+    {
+        return std::min(std::max(x, 0), width - 1);
+    };
+    auto clamp_y = [height](int y)
+    {
+        return std::min(std::max(y, 0), height - 1);
+    };
+    
+    for(int y = 0; y < height; ++y)
+    {
+        const int y_times_width = y * width;
+        for(int x = 0; x < width; ++x)
+        {
+            double blurred_pixel = 0.0;
+            
+            for(short my = -radius; my <= radius; ++my)
+            {
+                int newy = clamp_y(y + my);
+                int newy_times_width = newy * width;
+                for(short mx = -radius; mx <= radius; ++ mx)
+                {
+                    int newx = clamp_x(x + mx);
+                    blurred_pixel += originalPixels[newx + newy_times_width] * matrix[mx + radius][my + radius];
+                }
+            }            
+            pixels[x + y_times_width] = static_cast<unsigned char>(blurred_pixel);
+        }
+    }
+}
+
+void Image :: applyGaussianFilterWThreads(std :: vector<std :: vector<float>> matrix)
+{
     short radius = matrix.size() / 2;
     const int width = dibHeader.width;
     const int height = dibHeader.height;
@@ -230,15 +300,4 @@ void Image :: applyGaussianFilter(std :: vector<std :: vector<float>> matrix)
         thread.join();
     }
 }
-    
-    
-
-
-
-
-
-
-
-
-
 
