@@ -46,15 +46,5 @@ jobs:
         ./bmp sample.bmp --rotate-right --rotate-left --apply-filter --threads
         ./bmp sample1.bmp --rotate-right --rotate-left --apply-filter --threads
         ./bmp sample2.bmp --rotate-right --rotate-left --apply-filter --threads
-
-  run counter:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: check counter
-      run: |
-        ./count sample.bmp
+    - name: run counter
+      run: ./count source.bmp
