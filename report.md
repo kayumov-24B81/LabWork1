@@ -2,7 +2,7 @@
 ## Executive Summary
 This project enhanced a BMP image processing application by implementing multithreading capabilities, achieving significant performance improvements while maintaining functional integrity. The optimization focused on parallelizing compute-intensive operations across multiple CPU cores.
 
-##1. Project Overview
+## 1. Project Overview
 ### 1.1 Objectives
 - Implement parallel processing for image transformation operations
 - Achieve measurable performance improvements through multithreading
@@ -58,34 +58,39 @@ This project enhanced a BMP image processing application by implementing multith
 ### 3.2.1 Matrix Size Impact on Performance
 The Gaussian filter demonstrates excellent parallel scaling, while matrix computation shows limited benefits from multithreading:
 
-| Operation | Matrix Size | Speedup Observation |
-|Matrix Computation | 10 | 0.008× | Severe parallel overhead |
-|Matrix Computation | 20 | 0.027× | Minimal improvement |
-|Matrix Computation | 30 | 0.032× | Still highly inefficient |
-|Gaussian Filter | 10 | 3.53× | Good parallel scaling |
-|Gaussian Filter | 20 | 3.78× | Excellent scaling |
-|Gaussian Filter | 30 | 3.82× | Near-optimal performance |
+| Operation | Matrix Size | Speedup | Observation |
+|-----------|-------------|---------|-------------|
+| Matrix Computation | 10 | 0.008× | Severe parallel overhead |
+| Matrix Computation | 20 | 0.027× | Minimal improvement |
+| Matrix Computation | 30 | 0.032× | Still highly inefficient |
+| Gaussian Filter | 10 | 3.53× | Good parallel scaling |
+| Gaussian Filter | 20 | 3.78× | Excellent scaling |
+| Gaussian Filter | 30 | 3.82× | Near-optimal performance |
+
 **Key Finding**: Gaussian filtering achieves 3.5-3.8× speedup, demonstrating effective parallelization, while matrix computation suffers from excessive parallelization overhead.
 
 ### 3.2.2 Image Size Impact on Performance
 Larger images show better parallel efficiency due to reduced relative overhead:
 
-Operation | Image Size | Speedup | Efficiency Trend
-90° Rotation | 512×512 | 0.61× | Poor scaling
-90° Rotation | 1024×1024 | 0.77× | Moderate improvement
-90° Rotation | 2048×2048 | 1.67× | Better but suboptimal
-Gaussian Filter | 512×512 | 3.23× | Good performance
-Gaussian Filter | 1024×1024 | 3.30× | Improved scaling
-Gaussian Filter | 2048×2048 | 3.52× | Excellent scaling
-**Key Finding**: Gaussian filtering maintains 3.2-3.5× speedup across image sizes, while rotation shows poor parallel efficiency except for largest images.
+| Operation | Image Size | Speedup | Efficiency Trend |
+|-----------|------------|---------|------------------|
+| 90° Rotation | 512×512 | 0.61× | Poor scaling |
+| 90° Rotation | 1024×1024 | 0.77× | Moderate improvement |
+| 90° Rotation | 2048×2048 | 1.67× | Better but suboptimal |
+| Gaussian Filter | 512×512 | 3.23× | Good performance |
+| Gaussian Filter | 1024×1024 | 3.30× | Improved scaling |
+| Gaussian Filter | 2048×2048 | 3.52× | Excellent scaling |
+
+| **Key Finding**: Gaussian filtering maintains 3.2-3.5× speedup across image sizes, while rotation shows poor parallel efficiency except for largest images.
 
 ### 3.2.3 Overall Performance Summary
 The combined operations demonstrate consistent parallel scaling:
 
-Workload | Image Size | Speedup | Parallel Efficiency
-Overall | 512×512 | 3.20× | 80% of theoretical max
-Overall | 1024×1024 | 3.26× | 82% of theoretical max
-Overall | 2048×2048 | 3.51× | 88% of theoretical max
+| Workload | Image Size | Speedup | Parallel Efficiency |
+|----------|------------|---------|---------------------|
+| Overall | 512×512 | 3.20× | 80% of theoretical max |
+| Overall | 1024×1024 | 3.26× | 82% of theoretical max |
+| Overall | 2048×2048 | 3.51× | 88% of theoretical max |
 
 ### 3.2.4 Critical Performance Insights
 1. Gaussian vs Rotation Performance Gap
