@@ -1,16 +1,27 @@
 #include "image.hpp"
 #include "matrix.hpp"
-#include "timer.hpp"
+#include "counter.hpp"
 #include <iostream>
 #include <thread>
 
-int main()
+int main(int argc, char* argv[])
 {
+    std :: string filename = "images/";
+    if(argc > 1)
+    {
+         filename += std :: string(argv[1]);
+    }
+    
+    else
+    {
+        std :: cerr << "Error: no testing image is provided" << std :: endl;
+        return 1;
+    }
     Image Image;
-    Image.read("source1.bmp");
+    Image.read(filename);
     
     unsigned threads_amount = std :: thread :: hardware_concurrency();
-    std :: cout << threads_amount << std :: endl;
+    std :: cout << "Active threads : " << threads_amount << std :: endl;
     int iterations = 5;
     std :: cout << "Iterations amount: " << iterations << std :: endl;
     const int matrix_size = 10;

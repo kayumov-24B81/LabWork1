@@ -5,6 +5,7 @@
 #include <fstream>
 #include <thread>
 #include <algorithm>
+#include <iostream>
 
 Image :: Image()
 {
@@ -13,8 +14,14 @@ Image :: Image()
 
 void Image :: read(std :: string fileName)
 {
+    std :: cout << "Reading " << fileName << " file..." << std :: endl;
+    
     std :: ifstream file;
     file.open(fileName, std :: ios_base :: binary);
+    if (!file.is_open()) 
+    {
+        throw std::runtime_error("Cannot open file: " + fileName);
+    }
     
     file.read((char*)&bmpHeader, sizeof(bmpHeader));
     file.read((char*)&dibHeader, sizeof(dibHeader));

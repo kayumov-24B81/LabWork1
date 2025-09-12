@@ -4,9 +4,13 @@ COUNTER = count
 
 LIBPROJECT = $(PROJECT).a
 
+SRC_DIR = src
+
+INCLUDE_DIR = include
+
 OBJECTS = main.o image.o matrix.o
 
-DEPS = (wildcard *.hpp)
+DEPS = $(wildcard $(INCLUDE_DIR)/*.hpp)
 
 A = ar
 
@@ -14,26 +18,28 @@ AFLAGS = rsv
 
 CXX = g++
 
-CCXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
+CXXFLAGS = -I$(INCLUDE_DIR) -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 
-LDXXFLAGS = $(CCXFLAGS) -L. -l:$(LIBPROJECT)
+LDXXFLAGS = $(CXXFLAGS) -L. -l:$(LIBPROJECT)
 
 .PHONY: default
 
 default: all;
 
-%.o: %.cpp $(DEPS)
+obj/%.o: $(SRC_DIR)/%.cpp $(DEPS)
+	@mkdir -p obj
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
-
-$(PROJECT): main.o $(LIBPROJECT)
-	$(CXX) -o $@ main.o $(LDXXFLAGS)
-
-$(COUNTER): counting.o $(LIBPROJECT)
-	$(CXX) -o $@ counting.o $(LDXXFLAGS)
 	
-$(LIBPROJECT): $(OBJECTS)
+$(LIBPROJECT): $(addprefix obj/, $(OBJECTS))
 	$(A) $(AFLAGS) $@ $^
 	
+
+$(PROJECT): obj/main.o $(LIBPROJECT)
+	$(CXX) -o $@ $< $(LDXXFLAGS)
+
+$(COUNTER): obj/counter.o $(LIBPROJECT)
+	$(CXX) -o $@ $< $(LDXXFLAGS)
+
 all: $(PROJECT)
 
 counter: $(COUNTER)
@@ -41,7 +47,7 @@ counter: $(COUNTER)
 .PHONY: clean
 
 clean:
-	rm -f *.o
+	rm -f obj/*.o
 
 cleanall: clean
 	rm -f $(LIBPROJECT)

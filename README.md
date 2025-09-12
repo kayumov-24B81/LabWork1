@@ -4,7 +4,7 @@
 ## Contacts
 st128100@student.spbu.ru
 ## Description
-LabWork1 - simle 8bit grayscale BMP redactor. Allows to rotate "source.bmp" image by 90 degrees and application of gaussian filter with matrix size specification. This redactor uses multithreading for memory-intensive and compute-intensive operations. The required operations and parameters are passed as launch parameters.
+LabWork1 - simle 8bit grayscale BMP redactor. Allows to rotate "source.bmp" image by 90 degrees and application of gaussian filter with matrix size specification. This redactor uses multithreading for memory-intensive and compute-intensive operations. The required operations, file name and parameters are passed as launch parameters.
 ## Build
 make
 ## Build perfomance tester
@@ -18,3 +18,6 @@ make counter
 - ./bmp --rotate-left  - rotate image by 90 degrees left
 - ./bmp --apply-filter - apply gaussian filter to image
 - ./bmp --threads - to enable usage of multiple threads
+- ./bmp [image_name] - to choose image (source.bmp by default) from images folder.
+## Run counter
+./count [image_name]

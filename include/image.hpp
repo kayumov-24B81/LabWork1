@@ -3,6 +3,7 @@
 */
 #include <string>
 #include "matrix.hpp"
+#include <filesystem>
 
 
 #ifndef BMP_HPP
@@ -16,7 +17,7 @@ struct BMP_HEADER
     unsigned bmp_size;
     unsigned short reserved1;
     unsigned short reserved2;
-    unsigned int pixel_data_address;
+    unsigned pixel_data_address;
 };
 
 struct DIB_HEADER
@@ -33,6 +34,7 @@ struct DIB_HEADER
     unsigned colors_amount;
     unsigned important_colors_amount;
 };
+#pragma pack(pop)
 
 class Image
 {
@@ -54,6 +56,5 @@ public:
     void applyGaussianFilterWThreads(std :: vector<std :: vector<float>> matrix);
 };
 
-#pragma pack(pop)
 
 #endif

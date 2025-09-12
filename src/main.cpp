@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
     bool rotate_left = false;
     bool apply_filter = false;
     bool use_threads = false;
+    std :: string filename = "images/source.bmp";
     
     for(int i = 0; i < argc; ++i)
     {
@@ -19,6 +20,7 @@ int main(int argc, char* argv[])
         else if(arg == "--rotate-left") rotate_left = true;
         else if(arg == "--apply-filter") apply_filter = true;
         else if(arg == "--threads") use_threads = true;
+        else if(arg.find(".bmp") != std::string::npos) filename = "images/" + arg;
     }
     
     if(not(rotate_right || rotate_left || apply_filter))
@@ -34,7 +36,16 @@ int main(int argc, char* argv[])
     else
     {
         Image Image;
-        Image.read("source.bmp");
+        try
+        {
+            Image.read(filename);
+        }
+        catch(std::string exception)
+        {
+            std :: cout << "Error reading file: " << exception << std :: endl;
+        }
+
+        
         if(rotate_left)
         {
             if(use_threads) Image.rotateLeftWThreads();
