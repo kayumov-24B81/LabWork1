@@ -20,6 +20,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y g++ make libgtest-dev libgmock-dev
+        sudo apt install doxygen
+        sudo apt install graphviz
 
     - name: Build Project
       run: make
