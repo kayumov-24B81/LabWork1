@@ -1,4 +1,5 @@
-/* This file contains definition of Image class methods. Now all functions only interact with contents of given object. No arguments, associated with contents of file are taken. Read and write methods first interact with headers of the file and color palette, then read/write pixels information with or without padding with zeros.
+/*  Kayumov Airat st128100@student.spbu.ru
+    This file contains definition of Image class methods. Now all functions only interact with contents of given object. No arguments, associated with contents of file are taken. Read and write methods first interact with headers of the file and color palette, then read/write pixels information with or without padding with zeros.
 */
 
 #include "image.hpp"

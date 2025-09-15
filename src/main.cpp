@@ -1,5 +1,5 @@
 /* Kayumov Airat st128100@student.spbu.ru
-   This is main.cpp file. All launch parameters are processed here. Further all actions are performed using Image and Matrix class methods.
+  All launch parameters are processed here. Further all actions are performed using Image and Matrix class methods.
 */
 
 #include "image.hpp"

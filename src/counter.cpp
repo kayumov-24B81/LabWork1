@@ -1,3 +1,6 @@
+/* Kayumov Airat st128100@student.spbu.ru
+   This file contains functions for measuring program performance in single-thread and multi-thread modes. The file used for measurements is selected at startup.
+*/
 #include "image.hpp"
 #include "matrix.hpp"
 #include "counter.hpp"

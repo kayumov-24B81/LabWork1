@@ -21,3 +21,5 @@ make counter
 - ./bmp [image_name] - to choose image (source.bmp by default) from images folder.
 ## Run counter
 ./count [image_name]
+## Generate documentation
+make docs

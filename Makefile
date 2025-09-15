@@ -44,6 +44,9 @@ all: $(PROJECT)
 
 counter: $(COUNTER)
 
+docs:
+	doxygen Doxyfile
+
 .PHONY: clean
 
 clean:

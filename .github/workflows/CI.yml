@@ -26,6 +26,8 @@ jobs:
     
     - name: Build Counter
       run: make counter
+    - name: Build Documentation
+      run: make docs
 
   run:
     runs-on: ubuntu-latest
