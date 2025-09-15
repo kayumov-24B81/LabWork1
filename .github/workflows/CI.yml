@@ -41,14 +41,14 @@ jobs:
 
     - name: run single thread
       run: |
-        ./bmp sample.bmp --rotate-right --rotate-left --apply-filter
-        ./bmp sample1.bmp --rotate-right --rotate-left --apply-filter
-        ./bmp sample2.bmp --rotate-right --rotate-left --apply-filter
+        ./bmp source.bmp --rotate-right --rotate-left --apply-filter
+        ./bmp source1.bmp --rotate-right --rotate-left --apply-filter
+        ./bmp source2.bmp --rotate-right --rotate-left --apply-filter
 
     - name: run multi thread
       run: |
-        ./bmp sample.bmp --rotate-right --rotate-left --apply-filter --threads
-        ./bmp sample1.bmp --rotate-right --rotate-left --apply-filter --threads
-        ./bmp sample2.bmp --rotate-right --rotate-left --apply-filter --threads
+        ./bmp source.bmp --rotate-right --rotate-left --apply-filter --threads
+        ./bmp source1.bmp --rotate-right --rotate-left --apply-filter --threads
+        ./bmp source2.bmp --rotate-right --rotate-left --apply-filter --threads
     - name: run counter
       run: ./count source.bmp
