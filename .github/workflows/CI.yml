@@ -9,7 +9,7 @@ on:
       [ main ]
 
 jobs:
-  build:
+  build_n_run:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y g++ make libgtest-dev libgmock-dev
+        sudo apt-get install -y build-essential g++ make
         sudo apt install doxygen
         sudo apt install graphviz
 
@@ -30,14 +30,6 @@ jobs:
       run: make counter
     - name: Build Documentation
       run: make docs
-
-  run:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
 
     - name: run single thread
       run: |
