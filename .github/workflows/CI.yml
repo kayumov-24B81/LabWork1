@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      [ main ] 
+  pull_request:
+    branches:
+      [ main ]
+
+jobs:
+  build_n_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++ make
+        sudo apt install doxygen
+        sudo apt install graphviz
+
+    - name: Build Project
+      run: make
+    
+    - name: Build Counter
+      run: make counter
+    - name: Build Documentation
+      run: make docs
+
+    - name: run single thread
+      run: |
+        ./bmp source.bmp --rotate-right --rotate-left --apply-filter
+        ./bmp source1.bmp --rotate-right --rotate-left --apply-filter
+        ./bmp source2.bmp --rotate-right --rotate-left --apply-filter
+
+    - name: run multi thread
+      run: |
+        ./bmp source.bmp --rotate-right --rotate-left --apply-filter --threads
+        ./bmp source1.bmp --rotate-right --rotate-left --apply-filter --threads
+        ./bmp source2.bmp --rotate-right --rotate-left --apply-filter --threads
+    - name: run counter
+      run: ./count source.bmp
